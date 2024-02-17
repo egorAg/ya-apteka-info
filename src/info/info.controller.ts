@@ -1,5 +1,11 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/api-key.guard';
 import { InfoService, PlatformType } from './info.service';
 
@@ -19,19 +25,43 @@ export class InfoController {
     enum: ['ios', 'android'],
     required: true,
   })
+  @ApiOkResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        version: {
+          type: 'string',
+          example: '1',
+        },
+      },
+    },
+  })
   @Get('version')
   public async getActualVersion(@Query('platform') platform: PlatformType) {
     return this.infoService.getActualVersion(platform);
   }
 
   @ApiOperation({
-    description: 'Set actual application version',
-    summary: 'Set actual version',
+    description: 'Get store links by platform',
+    summary: 'Actual store links',
   })
   @ApiQuery({
     name: 'platform',
     enum: ['ios', 'android'],
     required: true,
+  })
+  @ApiOkResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        store_name: {
+          nullable: false,
+          example: 'https://google.com/',
+          description: 'Actual link for platform',
+          title: 'link',
+        },
+      },
+    },
   })
   @Get('link')
   public async getActualLink(@Query('platform') platform: PlatformType) {
@@ -39,8 +69,8 @@ export class InfoController {
   }
 
   @ApiOperation({
-    description: 'Get store links by platform',
-    summary: 'Actual store links',
+    description: 'Set actual application version',
+    summary: 'Set actual version',
   })
   @ApiQuery({
     name: 'platform',
