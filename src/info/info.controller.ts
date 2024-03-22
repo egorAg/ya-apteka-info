@@ -89,4 +89,26 @@ export class InfoController {
   ) {
     return this.infoService.setActualVersion(platform, version);
   }
+
+  @ApiOperation({
+    description: 'Set a link for a store',
+    summary: 'Set link',
+  })
+  @ApiQuery({
+    name: 'store',
+    enum: ['appStore', 'playMarket'],
+    required: true,
+  })
+  @ApiQuery({
+    name: 'link',
+    required: true,
+    type: 'string',
+  })
+  @Get('link/set')
+  public async setLink(
+    @Query('store') store: string,
+    @Query('link') link: string,
+  ) {
+    await this.infoService.setLink(store, link);
+  }
 }
