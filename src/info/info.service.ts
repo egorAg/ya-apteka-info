@@ -41,11 +41,11 @@ export class InfoService implements OnModuleInit {
     }
   }
 
-  public async setLink(store: string, link: string) {
+  public async setLink(store: string, link?: string) {
     console.log(store, link);
 
     if (store === 'appStore' || store === 'playMarket') {
-      if (link === null) {
+      if (!link) {
         this.links.set(store, '');
       } else {
         this.links.set(store, link);

@@ -101,8 +101,8 @@ export class InfoController {
   })
   @ApiQuery({
     name: 'link',
-    required: true,
     type: 'string',
+    required: false,
   })
   @Get('link/set')
   public async setLink(
